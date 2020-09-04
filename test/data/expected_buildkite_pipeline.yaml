@@ -56,7 +56,7 @@ steps:
     queue: cpu
 - wait
 - label: ':pytest: Run PyTests (test-cpu-openmpi-py3_6-tf2_1_0-keras2_3_1-torch1_4_0-mxnet1_5_0-pyspark2_4_0)'
-  command: bash -c " cd /horovod/test && (echo test_*.py | sed 's/test_keras.py//g' | sed 's/test_tensorflow_keras.py//g' | sed 's/test_interactiverun.py//g' | sed 's/test_spark_keras.py//g' | sed 's/test_spark_torch.py//g' | sed 's/test_spark.py//g' | sed 's/test_run.py//g' | sed 's/test_ray.py//g' | xargs -n 1 \$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.${HOROVOD_RANK:-${OMPI_COMM_WORLD_RANK:-${PMI_RANK}}}.xml')"
+  command: bash -c " cd /horovod/test && (echo test_*.py | sed 's/test_keras.py//g' | sed 's/test_tensorflow_keras.py//g' | sed 's/test_interactiverun.py//g' | sed 's/test_spark_keras.py//g' | sed 's/test_spark_torch.py//g' | sed 's/test_spark.py//g' | sed 's/test_run.py//g' | sed 's/test_ray.py//g' | xargs -n 1 \$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.\${HOROVOD_RANK:-\${OMPI_COMM_WORLD_RANK:-\${PMI_RANK}}}.xml')"
   artifact_paths: "artifacts/**"
   plugins:
   - docker-compose#v3.5.0:
@@ -216,7 +216,7 @@ steps:
   agents:
     queue: cpu
 - label: ':pytest: Run PyTests (test-cpu-mpich-py3_6-tf1_15_0-keras2_3_1-torch1_4_0-mxnet1_5_0-pyspark2_4_0)'
-  command: bash -c " cd /horovod/test && (echo test_*.py | sed 's/[a-z_]*tensorflow2[a-z_.]*//g' | sed 's/test_interactiverun.py//g' | sed 's/test_spark_keras.py//g' | sed 's/test_spark_torch.py//g' | sed 's/test_spark.py//g' | sed 's/test_run.py//g' | sed 's/test_ray.py//g' | xargs -n 1 \$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.${HOROVOD_RANK:-${OMPI_COMM_WORLD_RANK:-${PMI_RANK}}}.xml')"
+  command: bash -c " cd /horovod/test && (echo test_*.py | sed 's/[a-z_]*tensorflow2[a-z_.]*//g' | sed 's/test_interactiverun.py//g' | sed 's/test_spark_keras.py//g' | sed 's/test_spark_torch.py//g' | sed 's/test_spark.py//g' | sed 's/test_run.py//g' | sed 's/test_ray.py//g' | xargs -n 1 \$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.\${HOROVOD_RANK:-\${OMPI_COMM_WORLD_RANK:-\${PMI_RANK}}}.xml')"
   artifact_paths: "artifacts/**"
   plugins:
   - docker-compose#v3.5.0:
@@ -408,7 +408,7 @@ steps:
   agents:
     queue: cpu
 - label: ':pytest: Run PyTests (test-cpu-oneccl-py3_6-tf1_15_0-keras2_3_1-torch1_4_0-mxnet1_5_0-pyspark2_4_0)'
-  command: bash -c "\$(cat /oneccl_env) && echo '/mpirun_command_mpi' > /mpirun_command && cd /horovod/test && (echo test_*.py | sed 's/[a-z_]*tensorflow2[a-z_.]*//g' | sed 's/test_interactiverun.py//g' | sed 's/test_spark_keras.py//g' | sed 's/test_spark_torch.py//g' | sed 's/test_spark.py//g' | sed 's/test_run.py//g' | sed 's/test_ray.py//g' | xargs -n 1 \$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.${HOROVOD_RANK:-${OMPI_COMM_WORLD_RANK:-${PMI_RANK}}}.xml')"
+  command: bash -c "\$(cat /oneccl_env) && echo '/mpirun_command_mpi' > /mpirun_command && cd /horovod/test && (echo test_*.py | sed 's/[a-z_]*tensorflow2[a-z_.]*//g' | sed 's/test_interactiverun.py//g' | sed 's/test_spark_keras.py//g' | sed 's/test_spark_torch.py//g' | sed 's/test_spark.py//g' | sed 's/test_run.py//g' | sed 's/test_ray.py//g' | xargs -n 1 \$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.\${HOROVOD_RANK:-\${OMPI_COMM_WORLD_RANK:-\${PMI_RANK}}}.xml')"
   artifact_paths: "artifacts/**"
   plugins:
   - docker-compose#v3.5.0:

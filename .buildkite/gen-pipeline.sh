@@ -112,7 +112,7 @@ run_mpi_pytest() {
   # pytests have 4x GPU use cases and require a separate queue
   run_test "${test}" "${queue}" \
     ":pytest: Run PyTests (${test})" \
-    "bash -c \"${oneccl_env} cd /horovod/test && (echo test_*.py ${exclude_keras} ${excluded_tests} ${exclude_standalone_test} | xargs -n 1 \\\$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.\${HOROVOD_RANK:-\${OMPI_COMM_WORLD_RANK:-\${PMI_RANK}}}.xml')\"" \
+    "bash -c \"${oneccl_env} cd /horovod/test && (echo test_*.py ${exclude_keras} ${excluded_tests} ${exclude_standalone_test} | xargs -n 1 \\\$(cat /mpirun_command) bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.mpi.\\\${HOROVOD_RANK:-\\\${OMPI_COMM_WORLD_RANK:-\\\${PMI_RANK}}}.xml')\"" \
     10
   run_test "${test}" "${queue}" \
     ":pytest: Run PyTests Standalone (${test})" \
@@ -220,7 +220,7 @@ run_gloo_pytest() {
 
   run_test "${test}" "${queue}" \
     ":pytest: Run PyTests (${test})" \
-    "bash -c \"cd /horovod/test && (echo test_*.py ${exclude_keras} ${excluded_tests} ${exclude_standalone_test} | xargs -n 1 horovodrun -np 2 -H localhost:2 --gloo bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit-xml=/artifacts/junit.gloo.\${HOROVOD_RANK:-\${OMPI_COMM_WORLD_RANK:-\${PMI_RANK}}}.xml')\"" \
+    "bash -c \"cd /horovod/test && (echo test_*.py ${exclude_keras} ${excluded_tests} ${exclude_standalone_test} | xargs -n 1 horovodrun -np 2 -H localhost:2 --gloo bash -c 'pytest -v --capture=no --continue-on-collection-errors --junit.gloo.\\\${HOROVOD_RANK:-\\\${OMPI_COMM_WORLD_RANK:-\\\${PMI_RANK}}}.xml')\"" \
     10
   run_test "${test}" "${queue}" \
     ":pytest: Run PyTests Standalone (${test})" \
